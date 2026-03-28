@@ -59,6 +59,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     tree \
     tmux \
+    vim \
     wget \
     weka \
     iputils-ping \
@@ -73,6 +74,12 @@ RUN apt-get update && apt-get install -y ca-certificates curl gnupg && \
     apt-get update && \
     apt-get install -y docker-ce-cli docker-buildx-plugin docker-compose-plugin && \
     rm -rf /var/lib/apt/lists/*
+
+# Install GitHub CLI (gh)
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null && \
+    apt-get update && apt-get install -y gh && apt-get clean
 
 # Install Python 3.8-3.13 and tools (uv will point to this)
 RUN add-apt-repository -y ppa:deadsnakes/ppa && \

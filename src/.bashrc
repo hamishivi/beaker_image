@@ -25,10 +25,10 @@ export PYTHONIOENCODING=utf8
 
 # We install NVCC manually, so we need to link the PATH here
 export PATH="/usr/local/cuda-12.9/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH"
+unset LD_LIBRARY_PATH
 
 # Add PATH for CUDA utils
-export LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu/libcusparseLt/12:/usr/lib/x86_64-linux-gnu/nvshmem/12:$LD_LIBRARY_PATH"
+# LD_LIBRARY_PATH is unset above; CUDA libs are found via ldconfig instead
 
 # Add /root/.local/bin to path (needed for uv)
 export PATH="/root/.local/bin:$PATH"

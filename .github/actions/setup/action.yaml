@@ -11,4 +11,4 @@ runs:
     - uses: allenai/setup-beaker@v2
       with:
         token: ${{ inputs.beaker_token }}
-        workspace: ai2/davidh
+        workspace: ai2/hamishivi

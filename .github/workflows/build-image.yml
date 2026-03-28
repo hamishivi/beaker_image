@@ -1,4 +1,4 @@
-name: Build ai2/davidh-interactive
+name: Build ai2/hamishivi-interactive
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -81,7 +81,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          outputs: type=docker,dest=/tmp/davidh_image.tar
+          outputs: type=docker,dest=/tmp/hamishivi_image.tar
           pull: true
           build-args: |
             BUILDKIT_INLINE_CACHE=1
@@ -89,7 +89,7 @@ jobs:
       - name: Show disk space and image size
         run: |
           df -h
-          ls -lh /tmp/davidh_image.tar
+          ls -lh /tmp/hamishivi_image.tar
 
       - name: Cleanup docker 
         run: |
@@ -102,21 +102,21 @@ jobs:
           
       - name: Load image into Docker daemon
         run: |
-          docker load -i /tmp/davidh_image.tar
+          docker load -i /tmp/hamishivi_image.tar
           IMAGE_ID=$(docker images --quiet --no-trunc | head -n 1)
-          docker tag "$IMAGE_ID" davidh_image:latest
+          docker tag "$IMAGE_ID" hamishivi_image:latest
 
       - name: Push image
         uses: ./.github/actions/push
         with:
-          image: davidh_image  # tag of the image we built in the previous step
-          beaker: davidh-interactive  # name of the image on Beaker
+          image: hamishivi_image  # tag of the image we built in the previous step
+          beaker: hamishivi-interactive  # name of the image on Beaker
           latest: true  # label this image as the 'latest'
 
       - name: Test image
         uses: ./.github/actions/test
         with:
-          beaker: davidh-interactive  # name of the image on Beaker
+          beaker: hamishivi-interactive  # name of the image on Beaker
 
   test-clusters:
     name: Launch on Beaker
@@ -147,6 +147,6 @@ jobs:
       - name: Test Beaker container
         uses: ./.github/actions/test
         with:
-          beaker: davidh-interactive
+          beaker: hamishivi-interactive
           cluster: ${{ matrix.cluster }}
 

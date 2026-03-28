@@ -1,6 +1,6 @@
 [user]
-    name = David Heineman
-    email = david@davidheineman.com
+    name = Hamish Ivison
+    email = hamishivi@gmail.com
 
 [safe]
-    directory = /oe-eval-default/davidh
+    directory = /oe-eval-default/hamishivi

@@ -24,5 +24,5 @@ runs:
       run: |
         SHORT_SHA=$(git rev-parse --short HEAD)
         beaker image create --name "${{ inputs.beaker }}-${SHORT_SHA}-${{ github.run_id }}" ${{ inputs.image }}
-        beaker image delete davidh/${{ inputs.beaker }} || true
+        beaker image delete hamishivi/${{ inputs.beaker }} || true
         beaker image create --name ${{ inputs.beaker }} ${{ inputs.image }}

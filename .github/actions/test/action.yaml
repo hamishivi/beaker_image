@@ -18,7 +18,7 @@ runs:
         beaker session create \
           --name git-test \
           --cluster ${{ inputs.cluster }} \
-          --image beaker://davidh/${{ inputs.beaker }} \
-          --workspace ai2/davidh \
+          --image beaker://hamishivi/${{ inputs.beaker }} \
+          --workspace ai2/hamishivi \
           --budget ai2/oe-base \
           --bare --detach -- /bin/bash -c "exit"

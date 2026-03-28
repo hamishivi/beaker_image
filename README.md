@@ -1,6 +1,8 @@
-[![Build davidh Image](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml/badge.svg)](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml)
+[![Build hamishivi Image](https://github.com/hamishivi/beaker_image/actions/workflows/build-image.yml/badge.svg)](https://github.com/hamishivi/beaker_image/actions/workflows/build-image.yml)
 
-This repo auto-builds the image `beaker://davidh/davidh-interactive`. Pre-installed vs-code extensions, pre-installed nvcc, updated CUDA, no plain-text secrets in WEKA. 
+This repo auto-builds the image `beaker://hamishivi/hamishivi-interactive`. Pre-installed vs-code extensions, pre-installed nvcc, updated CUDA, no plain-text secrets in WEKA.
+
+Based on [davidheineman/beaker_image](https://github.com/davidheineman/beaker_image) - all credit to [David Heineman](https://github.com/davidheineman) for the original image setup.
 
 Pairs well with [cuvette](https://github.com/davidheineman/cuvette).
 
@@ -24,17 +26,17 @@ ssh ai2
 beaker session create \
     --name quick-start \
     --cluster ai2/phobos \
-    --image beaker://davidh/davidh-interactive \
-    --workspace ai2/davidh \
+    --image beaker://hamishivi/hamishivi-interactive \
+    --workspace ai2/hamishivi \
     --priority normal \
     --budget ai2/oe-base \
     --bare --detach --port 8080 \
-    --workdir /oe-eval-default/davidh \
+    --workdir /oe-eval-default/hamishivi \
     --mount src=weka,ref=oe-eval-default,dst=/oe-eval-default \
     --mount src=weka,ref=oe-training-default,dst=/oe-training-default \
     --mount src=weka,ref=oe-data-default,dst=/oe-data-default \
     --mount src=weka,ref=oe-adapt-default,dst=/oe-adapt-default \
-    --mount src=secret,ref=davidh-ssh-key,dst=/root/.ssh/id_rsa \
+    --mount src=secret,ref=hamishivi-ssh-key,dst=/root/.ssh/id_rsa \
     -- /entrypoint.sh
 ```
 
@@ -53,8 +55,8 @@ beaker session create \
 
 ### tutorial
 1. Fork this repo
-2. Update references for `davidh` to your workspace/desired image name
-3. Grab your [Beaker user token](https://beaker.allen.ai/user/davidh/settings/token) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/davidheineman/beaker_image/settings/secrets/actions
+2. Update references for `hamishivi` to your workspace/desired image name
+3. Grab your [Beaker user token](https://beaker.allen.ai/user) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/hamishivi/beaker_image/settings/secrets/actions
 4. To use git on the remote, add your pubkey (`cat ~/.ssh/id_rsa.pub`) to your GitHub account: https://github.com/settings/keys. Then, update your GitHub email in `src/.gitconfig`:
 ```sh
 [user]
@@ -66,12 +68,12 @@ beaker session create \
 ```
 5. [Optional] Test your build locally:
 ```sh
-docker build -t davidh-interactive .
-docker run -it -p 8080:8080 davidh-interactive
-# docker run --rm davidh-interactive
+docker build -t hamishivi-interactive .
+docker run -it -p 8080:8080 hamishivi-interactive
+# docker run --rm hamishivi-interactive
 ssh -p 8080 root@127.0.0.1
-beaker image delete davidh/davidh-interactive
-beaker image create --name davidh-interactive davidh-interactive
+beaker image delete hamishivi/hamishivi-interactive
+beaker image create --name hamishivi-interactive hamishivi-interactive
 ```
 
 </details>

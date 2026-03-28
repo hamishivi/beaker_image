@@ -16,9 +16,9 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 export force_color_prompt=yes
 
 # Change HF caches
-export HF_DATASETS_CACHE="/oe-eval-default/davidh/.cache/huggingface/datasets"
-export HUGGINGFACE_HUB_CACHE="/oe-eval-default/davidh/.cache/huggingface/hub"
-export HF_HOME="/oe-eval-default/davidh/.cache/huggingface/hub"
+export HF_DATASETS_CACHE="/oe-eval-default/hamishivi/.cache/huggingface/datasets"
+export HUGGINGFACE_HUB_CACHE="/oe-eval-default/hamishivi/.cache/huggingface/hub"
+export HF_HOME="/oe-eval-default/hamishivi/.cache/huggingface/hub"
 
 # Change terminal formatting to UTF-8 for Python
 export PYTHONIOENCODING=utf8
@@ -41,7 +41,7 @@ export PATH="/root/.bin:$PATH"
 
 # Change conda dir to remote
 rm -rf /root/.conda # <- Will exist on some beaker images
-ln -sfn /oe-eval-default/davidh/miniconda3 /root/.conda-remote || true
+ln -sfn /oe-eval-default/hamishivi/miniconda3 /root/.conda-remote || true
 export CONDA_ENVS_DIRS=/root/.conda-remote/envs
 export CONDA_PKGS_DIRS=/root/.conda-remote/pkgs
 
@@ -56,14 +56,14 @@ conda() {
 # source /root/.conda_init
 
 # Change default cache dir
-export XDG_CACHE_HOME="/oe-eval-default/davidh/.cache"
+export XDG_CACHE_HOME="/oe-eval-default/hamishivi/.cache"
 
 # Link NFS directory to home
-ln -sfn /oe-eval-default/davidh ~/ai2 || true
-ln -sfn /oe-eval-default/davidh/.aws ~/.aws || true
-ln -sfn /oe-eval-default/davidh/.gcp ~/.gcp || true
-ln -sfn /oe-eval-default/davidh/.kaggle ~/.kaggle || true
-ln -sfn /oe-eval-default/davidh/.cache ~/.cache || true
+ln -sfn /oe-eval-default/hamishivi ~/ai2 || true
+ln -sfn /oe-eval-default/hamishivi/.aws ~/.aws || true
+ln -sfn /oe-eval-default/hamishivi/.gcp ~/.gcp || true
+ln -sfn /oe-eval-default/hamishivi/.kaggle ~/.kaggle || true
+ln -sfn /oe-eval-default/hamishivi/.cache ~/.cache || true
 
 # Some scripts use /weka/oe-training-default. Create symlink for this
 mkdir -p /weka
@@ -80,7 +80,7 @@ gitlogin() {
 }
 
 # Make directory safe
-git config --global --add safe.directory /oe-eval-default/davidh
+git config --global --add safe.directory /oe-eval-default/hamishivi
 
 # Verify gcp
 gcplogin() {
@@ -124,7 +124,7 @@ alias nv='nvidia-smi | lolcat'
 alias nvwatch="watch -n 1 nvidia-smi"
 
 # beaker config set user_token $BEAKER_TOKEN
-# beaker config set default_workspace ai2/davidh
+# beaker config set default_workspace ai2/hamishivi
 
 if [ "$PWD" = "$HOME" ]; then
     cd ~/ai2

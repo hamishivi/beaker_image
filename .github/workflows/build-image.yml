@@ -131,7 +131,6 @@ jobs:
           'ai2/neptune',
           'ai2/ceres',
           'ai2/phobos',
-          'ai2/hammond',
           'ai2/triton'
         ]
       fail-fast: false # Allow other clusters to continue even if one fails

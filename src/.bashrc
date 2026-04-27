@@ -36,6 +36,9 @@ export PATH="/root/.local/bin:$PATH"
 # Add ChatGPT!
 export PATH="/root/.bin:$PATH"
 
+# Talk to the in-image podman socket (started by entrypoint.sh).
+export DOCKER_HOST=unix:///run/podman/podman.sock
+
 # # Add Beaker aliases
 # source /root/.beaker_tools/aliases.sh
 

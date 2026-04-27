@@ -97,6 +97,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libselinux1-dev \
       libsystemd-dev \
       netavark \
+      aardvark-dns \
       passt \
       pkg-config \
       uidmap \
@@ -145,6 +146,8 @@ RUN chmod +x /usr/local/bin/setup_dockerio_mirror
 # Tell beaker the container runs its own podman; don't bind the host docker socket.
 ENV BEAKER_ALLOW_SUBCONTAINERS=1
 ENV BEAKER_SKIP_DOCKER_SOCKET=1
+# Point docker-CLI compose plugin and other docker-API clients at the in-image podman socket.
+ENV DOCKER_HOST=unix:///run/podman/podman.sock
 
 # Install GitHub CLI (gh)
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && \

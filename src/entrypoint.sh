@@ -9,6 +9,11 @@ gcplogin || true
 # Authenticate with Docker
 dockerlogin || true
 
+# Start podman API socket so `docker compose` (and anything talking the docker API) works.
+mkdir -p /run/podman
+nohup podman system service --time=0 unix:///run/podman/podman.sock \
+    >/var/log/podman.sock.log 2>&1 &
+
 # Start VS code servers
 # export PATH="/root/.vscode-server/bin:/root/.vscode-server/bin/bin:$PATH"
 # export PATH="/root/.cursor-server/bin:/root/.cursor-server/bin/bin:$PATH"

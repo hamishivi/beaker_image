@@ -1,7 +1,7 @@
 # https://github.com/allenai/docker-images/pkgs/container/cuda/versions
 # https://hub.docker.com/r/nvidia/cuda/tags
-FROM --platform=linux/amd64 nvidia/cuda:12.9.1-cudnn-devel-ubuntu22.04
-ENV OS_VER=ubuntu22.04
+FROM --platform=linux/amd64 nvidia/cuda:12.9.1-cudnn-devel-ubuntu24.04
+ENV OS_VER=ubuntu24.04
 
 WORKDIR /root
 ENV DEBIAN_FRONTEND=noninteractive
@@ -69,7 +69,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y ca-certificates curl gnupg && \
     install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" > /etc/apt/sources.list.d/docker.list && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu noble stable" > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
     apt-get install -y docker-ce-cli docker-buildx-plugin docker-compose-plugin && \
     rm -rf /var/lib/apt/lists/*

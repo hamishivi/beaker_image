@@ -74,6 +74,78 @@ RUN apt-get update && apt-get install -y ca-certificates curl gnupg && \
     apt-get install -y docker-ce-cli docker-buildx-plugin docker-compose-plugin && \
     rm -rf /var/lib/apt/lists/*
 
+################################################################################
+# Build podman from source (replaces docker via symlink so `docker ps` etc.
+# hit the in-image podman instead of a host docker socket).
+# Mirrors the custom-podman stage from allenai/docker-images cuda/Dockerfile.
+################################################################################
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      gcc \
+      golang-go \
+      go-md2man \
+      iptables \
+      libassuan-dev \
+      libbtrfs-dev \
+      libc6-dev \
+      libdevmapper-dev \
+      libglib2.0-dev \
+      libgpgme-dev \
+      libgpg-error-dev \
+      libprotobuf-dev \
+      libprotobuf-c-dev \
+      libseccomp-dev \
+      libselinux1-dev \
+      libsystemd-dev \
+      netavark \
+      passt \
+      pkg-config \
+      uidmap \
+      conmon \
+      golang-github-containers-common \
+      autoconf \
+      automake \
+      libtool \
+      libcap-dev \
+      libyajl-dev \
+      systemd \
+      python3-sphinx \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /etc/containers/registries.conf.d/
+COPY src/podman/containers.conf /etc/containers/containers.conf
+COPY src/podman/policy.json /etc/containers/policy.json
+COPY src/podman/10-unqualified-search-registries.conf /etc/containers/registries.conf.d/10-unqualified-search-registries.conf
+
+RUN wget -qO- https://github.com/containers/podman/archive/refs/tags/v5.6.2.tar.gz \
+    | tar xz -C /tmp \
+    && cd /tmp/podman-5.6.2 \
+    && make BUILDTAGS="selinux seccomp" PREFIX=/usr \
+    && make install PREFIX=/usr \
+    && rm -rf /tmp/podman-5.6.2
+
+RUN git clone --depth 1 -b 1.14.3 https://github.com/containers/crun.git /tmp/crun \
+    && cd /tmp/crun \
+    && ./autogen.sh \
+    && ./configure --prefix=/usr --sysconfdir=/etc \
+    && make \
+    && make install \
+    && rm -rf /tmp/crun
+
+# symlink so docker commands are translated to podman
+RUN ln -sf $(which podman) /usr/local/bin/docker
+
+# Set user namespace ranges
+RUN echo "root:10000:11165536" >> /etc/subuid \
+ && echo "root:10000:11165536" >> /etc/subgid
+
+# Add an option for specifying registry mirror location
+COPY src/podman/setup_dockerio_mirror /usr/local/bin/setup_dockerio_mirror
+RUN chmod +x /usr/local/bin/setup_dockerio_mirror
+
+# Tell beaker the container runs its own podman; don't bind the host docker socket.
+ENV BEAKER_ALLOW_SUBCONTAINERS=1
+ENV BEAKER_SKIP_DOCKER_SOCKET=1
+
 # Install GitHub CLI (gh)
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && \
     chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && \
@@ -129,6 +201,9 @@ RUN . "$HOME/.cargo/env"
 
 # Install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install podman-compose (uv is now available)
+RUN /root/.local/bin/uv pip install --no-cache-dir --system podman-compose
 
 # Install s5cmd
 ARG S5CMD_VERSION=2.3.0

@@ -29,7 +29,6 @@ beaker session create \
     --image beaker://hamishivi/hamishivi-interactive \
     --workspace ai2/hamishivi \
     --priority normal \
-    --budget ai2/oe-base \
     --bare --detach --port 8080 \
     --workdir /oe-eval-default/hamishivi \
     --mount src=weka,ref=oe-eval-default,dst=/oe-eval-default \

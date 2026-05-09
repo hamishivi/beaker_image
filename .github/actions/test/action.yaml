@@ -20,5 +20,4 @@ runs:
           --cluster ${{ inputs.cluster }} \
           --image beaker://hamishivi/${{ inputs.beaker }} \
           --workspace ai2/hamishivi \
-          --budget ai2/oe-base \
           --bare --detach -- /bin/bash -c "exit"

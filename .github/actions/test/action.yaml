@@ -19,5 +19,5 @@ runs:
           --name git-test \
           --cluster ${{ inputs.cluster }} \
           --image beaker://hamishivi/${{ inputs.beaker }} \
-          --workspace ai2/hamishivi \
+          --workspace ai2/open-instruct-dev \
           --bare --detach -- /bin/bash -c "exit"

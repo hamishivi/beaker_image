@@ -27,7 +27,7 @@ beaker session create \
     --name quick-start \
     --cluster ai2/phobos \
     --image beaker://hamishivi/hamishivi-interactive \
-    --workspace ai2/hamishivi \
+    --workspace ai2/open-instruct-dev \
     --priority normal \
     --bare --detach --port 8080 \
     --workdir /oe-eval-default/hamishivi \

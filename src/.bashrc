@@ -127,7 +127,7 @@ alias nv='nvidia-smi | lolcat'
 alias nvwatch="watch -n 1 nvidia-smi"
 
 # beaker config set user_token $BEAKER_TOKEN
-# beaker config set default_workspace ai2/hamishivi
+# beaker config set default_workspace ai2/open-instruct-dev
 
 if [ "$PWD" = "$HOME" ]; then
     cd ~/ai2
